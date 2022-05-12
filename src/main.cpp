@@ -1,4 +1,6 @@
 #include <Arduino.h>
+// please read the instructions in include/CredentialsTemplate.h first
+#include "Credentials.h"
 
 void setup() {
   // put your setup code here, to run once:
