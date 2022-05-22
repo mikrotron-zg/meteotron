@@ -16,6 +16,6 @@ Also, we can go solar by using:
 
 ## Software
 
-Project software is written in [VS Code](https://code.visualstudio.com/) with [PlatformIO](https://platformio.org/) plugin, but it can be compiled using [Arduino IDE](https://www.arduino.cc/en/software) (you might need to change a few things here and there, and manually download the libraries used in the project, but it should work).
+Project software is written in [VS Code](https://code.visualstudio.com/) with [PlatformIO](https://platformio.org/) plugin, but it can be compiled using [Arduino IDE](https://www.arduino.cc/en/software) (you might need to change a few things here and there, and manually download the libraries used in the project, but it should work). At the moment, for PlatformIO to work you have to manually install (Advanced installation) this link https://github.com/tasmota/platform-espressif32/releases/download/v.2.0.3/platform-espressif32-v.2.0.3.zip
 
 Before compiling, you must add your credentials (WiFi, ThingsBoard, etc), so please follow the instructions in _include/CredentialsTemplate.h_ file.
