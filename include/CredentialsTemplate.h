@@ -27,4 +27,5 @@
     #define WIFI_PASSWORD "Your WiFi password"
     // Add your ThingsBoard device token
     #define TOKEN "Your device token"
+    #define THINGSBOARD_SERVER  "demo.thingsboard.io" // change only if using another server
 #endif

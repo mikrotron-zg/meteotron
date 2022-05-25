@@ -16,6 +16,6 @@ Also, we can go solar by using:
 
 ## Software
 
-Project software is written in [VS Code](https://code.visualstudio.com/) with [PlatformIO](https://platformio.org/) plugin, but it can be compiled using [Arduino IDE](https://www.arduino.cc/en/software) (you might need to change a few things here and there, and manually download the libraries used in the project, but it should work). At the moment, you have to install the latest version (currently 4.3.0) of Espressif32 platform (or update if you're using the older one). Also, be sure to have the latest PlatformIO version installed (currently Core 6.0.1, Home 3.4.1).
+Project software is written in [VS Code](https://code.visualstudio.com/) with [PlatformIO](https://platformio.org/) plugin, but it can be compiled using [Arduino IDE](https://www.arduino.cc/en/software) (you might need to change a few things here and there, and manually download the libraries used in the project, but it should work). 
 
 Before compiling, you must add your credentials (WiFi, ThingsBoard, etc), so please follow the instructions in _include/CredentialsTemplate.h_ file.
