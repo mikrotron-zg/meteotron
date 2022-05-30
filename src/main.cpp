@@ -1,4 +1,4 @@
-#define DEBUG_MODE // please read the instructions in include/Debug.h file
+//#define DEBUG_MODE // please read the instructions in include/Debug.h file
 
 #include <Arduino.h>
 #include <WiFi.h>
@@ -38,8 +38,9 @@ void checkBattery() {
     DEBUGLN("Could not find Adafruit LC709203F or battery not plugged in!");
     return;
   }
+  delay(DELAY_STANDARD);
   sensorData.batteryVoltage = lc.cellVoltage();
-  delay(25);
+  delay(DELAY_STANDARD);
   sensorData.batteryPercentage = lc.cellPercent();
   DEBUG("Batt Voltage: "); DEBUGLN(sensorData.batteryVoltage);
   DEBUG("Batt Percent: "); DEBUGLN(sensorData.batteryPercentage);
@@ -50,15 +51,35 @@ void readBME() {
   BME680 bme680;
   bme680.begin();
   bme680.setGas(0, 0); // turn the gas sensor heater off
-  delay(2000);
+  delay(DELAY_LONG);
   sensorData.temperature = bme680.readTemperature();
-  delay(250);
+  delay(DELAY_LONG);
   sensorData.humidity = bme680.readHumidity();
-  delay(250);
+  delay(DELAY_LONG);
   sensorData.pressure = bme680.readPressure() + PA_PER_METER*ALTITUDE;
   DEBUG("Temperature: "); DEBUGLN(sensorData.temperature);
   DEBUG("Humidity: "); DEBUGLN(sensorData.humidity);
   DEBUG("Atm. pressure: "); DEBUGLN(sensorData.pressure);
+}
+
+bool readSensors(const byte max_retry) {
+  for (byte i = 0; i < max_retry; i++) {
+    powerOn(); // power on the I2C bus
+    delay(DELAY_LONG);
+    checkBattery();
+    delay(DELAY_LONG);
+    readBME();
+    delay(DELAY_LONG);
+    // if BME680 reads anything but defaults: RH: 100% & temp 34.17
+    if (sensorData.humidity < 99.9 && 
+        (sensorData.temperature < 34.16 || sensorData.temperature > 34.18)) {
+          DEBUGLN("Sensor data successfully read.");
+          return true;
+        }
+  }
+  // failed to read data
+  DEBUGLN("Sensor read not successful!");
+  return false;
 }
 
 void uploadData() {
@@ -92,7 +113,7 @@ void gotoSleep() {
   pinMode(PIN_I2C_POWER, OUTPUT);
   digitalWrite(PIN_I2C_POWER, HIGH);
   delay(1000);
-  esp_sleep_enable_timer_wakeup(600000000);
+  esp_sleep_enable_timer_wakeup(600000000L); // 10 minutes in microseconds
   esp_deep_sleep_start();
 }
 
@@ -104,13 +125,13 @@ void setup() {
     delay(5000); // give us time to open serial monitor if closed
   #endif
   DEBUGLN("Debug mode on"); // let us know you're ready
+  delay(DELAY_SHORT);
   if (!connectToWiFi()) gotoSleep();
-  powerOn(); // power on the I2C bus
-  delay(1000);
-  checkBattery();
-  readBME();
-  delay(1000);
-  uploadData();
+  if (readSensors(3)) {
+    // upload data only upon successful sensor read
+    uploadData();
+  }
+  delay(DELAY_LONG);
   gotoSleep();
 }
 
