@@ -1,6 +1,8 @@
 # Meteotron
 
-A simple weather station project based on [Adafruit](https://www.adafruit.com/) Feather ESP32-S2 and BME680. Basic version reads temperature, relative humidity and atmospheric pressure, connects to local Wi-Fi and sends data to [ThingsBoard](https://demo.thingsboard.io/) demo server.
+A simple weather station project based on [Adafruit](https://www.adafruit.com/) Feather ESP32-S2 and BME680. Basic version reads temperature, relative humidity and atmospheric pressure, connects to local Wi-Fi and sends data to [ThingsBoard](https://demo.thingsboard.io/) demo server. You can find current data from our test setup [here](https://bit.ly/3z5tDIx).
+
+![meteotron dashboard](img/meteotron_dashboard.png)
 
 ## Hardware
 
