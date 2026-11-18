@@ -6,20 +6,20 @@
 // should be in the same directory
 include <mini_solar_common.scad>;
 
-// panel dimensions, in order [width, height, width, height, ...]
-panel_dimensions = [131, 151, 111, 70, 91, 61];
+// panel dimensions, in order [width, length, height, width, length, height, ...]
+panel_dimensions = [131, 151, 2, 111, 70, 2, 91, 61, 2, 109.8, 109.8, 3];
 
-// select panel type: 0 - big, 1 - medium, 2 - small
-panel_type = 0;
+// select panel type: 0 - 5V big, 1 - 5V medium, 2 - 5V small, 3 - 12V mini
+panel_type = 3;
 
 // geometry
 wall = 2.4;
-panel_w = panel_dimensions[panel_type*2];
-panel_l = panel_dimensions[panel_type*2 + 1];
-panel_h = 2;
+panel_w = panel_dimensions[panel_type*3];
+panel_l = panel_dimensions[panel_type*3 + 1];
+panel_h = panel_dimensions[panel_type*3 + 2];
 panel_distance = 0.1;
 frame_w = 10;
-frame_h = 2;
+frame_h = 4 - panel_h;
 frame_overlap = 2;
 full_width = panel_w + 2*panel_distance + 2*frame_w;
 full_length = panel_l + 2*panel_distance + 2*frame_w;
@@ -60,9 +60,9 @@ module bottom_part() {
         power_inlet();
     // brackets
     translate([full_width/2 - bracket_distance/2, full_length/2, bottom_height]) 
-        bracket();
+        bracket(bracket_width,bracket_length, 0.75*bracket_length);
     translate([full_width/2 + bracket_distance/2, full_length/2, bottom_height]) 
-        bracket();
+        bracket(bracket_width, bracket_length, 0.75*bracket_length);
 }
 
 module power_inlet() {

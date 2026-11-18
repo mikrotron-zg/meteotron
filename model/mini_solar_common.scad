@@ -51,17 +51,17 @@ module m3_flathead_screw() {
     translate([0, 0, m3_screw_head_h]) cylinder(d = m3_dia, h = 10 - m3_screw_head_h);
 }
 
-module bracket(width = bracket_width, length = bracket_length) {
+module bracket(width = bracket_width, length = bracket_length, height = 0.5*bracket_length) {
     // Draws mounting bracket
     $fn = 200;
     difference() {
         union() {
-            translate([-width/2, 0, length/2]) rotate([0, 90, 0])
+            translate([-width/2, 0, height]) rotate([0, 90, 0])
                 cylinder(d = length, h = width);
             translate([-width/2, -length/2, 0])
-                cube([width, length, length/2]);
+                cube([width, length, height]);
         }
-        translate([-width/2-ex, 0, length/2]) rotate([0, 90, 0]) 
+        translate([-width/2-ex, 0, height]) rotate([0, 90, 0]) 
             cylinder(d = m5_dia, h = width + 2*ex);
     }
     // Add reinforcements
