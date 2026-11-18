@@ -99,7 +99,11 @@ void uploadData() {
     {"pressure", sensorData.pressure},
     {"battery", sensorData.batteryVoltage}
   };
-  tb.sendTelemetry(data, data_items);
+  if (tb.sendTelemetry(data, data_items)) {
+    DEBUGLN("Telemetry sent successfully");
+  } else {
+    DEBUGLN("Failed to send telemetry");
+  }
   delay(1000);
   tb.disconnect();
 }
